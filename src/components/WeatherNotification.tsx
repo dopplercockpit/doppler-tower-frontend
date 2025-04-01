@@ -13,7 +13,7 @@ const WeatherNotification = ({ notifications }: WeatherNotificationProps) => {
 
   return (
     <div className="mb-6">
-      <h2 className="text-2xl font-bold mb-4 neon-text neon-yellow">Weather Alerts</h2>
+      <h2 className="text-2xl font-bold mb-4 text-indigo-700">Weather Alerts</h2>
       <div className="space-y-3">
         {notifications.map((notification, index) => (
           <div
@@ -22,11 +22,11 @@ const WeatherNotification = ({ notifications }: WeatherNotificationProps) => {
           >
             <div className="flex items-start">
               {notification.type === "warning" ? (
-                <AlertTriangle className="mr-2 h-5 w-5 flex-shrink-0 text-yellow-200" />
+                <AlertTriangle className="mr-2 h-5 w-5 flex-shrink-0 text-yellow-700" />
               ) : notification.type === "alert" ? (
-                <AlertCircle className="mr-2 h-5 w-5 flex-shrink-0 text-red-200" />
+                <AlertCircle className="mr-2 h-5 w-5 flex-shrink-0 text-red-700" />
               ) : (
-                <Info className="mr-2 h-5 w-5 flex-shrink-0 text-blue-200" />
+                <Info className="mr-2 h-5 w-5 flex-shrink-0 text-blue-700" />
               )}
               <div>
                 <div className="flex items-center mb-1">
