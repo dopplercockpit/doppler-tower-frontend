@@ -1,0 +1,91 @@
+
+/* Weather Cards and Components */
+.weather-card {
+  @apply overflow-hidden rounded-lg shadow-lg transition-all duration-300 ff7-card;
+}
+
+.weather-map {
+  @apply overflow-hidden rounded-lg;
+  border: 3px solid #4169E1;
+  box-shadow: 0 0 15px rgba(65, 105, 225, 0.5);
+}
+
+/* Weather Condition Backgrounds */
+:root {
+  /* Weather condition gradients - FF7 style */
+  --sunny-gradient: linear-gradient(to right, #ffd34e, #f9a825);
+  --cloudy-gradient: linear-gradient(to right, #90a4ae, #cfd8dc);
+  --rainy-gradient: linear-gradient(to right, #4fc3f7, #29b6f6);
+  --snowy-gradient: linear-gradient(to right, #e0e0e0, #f5f5f5);
+  --stormy-gradient: linear-gradient(to right, #546e7a, #78909c);
+}
+
+.sunny-bg {
+  background: linear-gradient(to right, rgba(255, 211, 78, 0.9), rgba(249, 168, 37, 0.9));
+  @apply text-gray-800 backdrop-blur-sm;
+}
+
+.cloudy-bg {
+  background: linear-gradient(to right, rgba(144, 164, 174, 0.9), rgba(207, 216, 220, 0.9));
+  @apply text-gray-800 backdrop-blur-sm;
+}
+
+.rainy-bg {
+  background: linear-gradient(to right, rgba(79, 195, 247, 0.9), rgba(41, 182, 246, 0.9));
+  @apply text-gray-800 backdrop-blur-sm;
+}
+
+.snowy-bg {
+  background: linear-gradient(to right, rgba(224, 224, 224, 0.9), rgba(245, 245, 245, 0.9));
+  @apply text-gray-800 backdrop-blur-sm;
+}
+
+.stormy-bg {
+  background: linear-gradient(to right, rgba(84, 110, 122, 0.9), rgba(120, 144, 156, 0.9));
+  @apply text-white backdrop-blur-sm;
+}
+
+.weather-icon {
+  @apply w-20 h-20 mx-auto;
+}
+
+.forecast-card {
+  @apply p-4 rounded-lg shadow-md transition-all duration-300 hover:shadow-lg ff7-border bg-white bg-opacity-80 backdrop-blur-sm;
+}
+
+/* Notifications */
+.notification-card {
+  @apply p-4 rounded-lg shadow transition-all mb-4 ff7-border;
+}
+
+.notification-card.warning-bg {
+  background: linear-gradient(to right, rgba(255, 183, 77, 0.8), rgba(255, 152, 0, 0.8));
+  @apply backdrop-blur-sm text-gray-800;
+}
+
+.notification-card.info-bg {
+  background: linear-gradient(to right, rgba(79, 195, 247, 0.8), rgba(3, 169, 244, 0.8));
+  @apply backdrop-blur-sm text-gray-800;
+}
+
+.notification-card.alert-bg {
+  background: linear-gradient(to right, rgba(239, 83, 80, 0.8), rgba(229, 57, 53, 0.8));
+  @apply backdrop-blur-sm text-white;
+}
+
+.severe-alert {
+  @apply bg-red-500 bg-opacity-80 text-white rounded-md p-4 mb-4 backdrop-blur-sm border-l-4 border-red-700;
+}
+
+/* Air Quality Indicators */
+.air-quality-good {
+  @apply bg-green-500 rounded-full w-4 h-4 inline-block;
+}
+
+.air-quality-moderate {
+  @apply bg-yellow-500 rounded-full w-4 h-4 inline-block;
+}
+
+.air-quality-poor {
+  @apply bg-red-500 rounded-full w-4 h-4 inline-block;
+}

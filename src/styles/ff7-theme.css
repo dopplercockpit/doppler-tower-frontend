@@ -1,0 +1,65 @@
+
+/* FF7 UI Elements */
+.ff7-card {
+  @apply rounded-lg shadow-lg border-2 backdrop-blur-sm transition-all duration-300;
+  border-color: rgba(65, 105, 225, 0.7);
+  box-shadow: 0 0 15px rgba(65, 105, 225, 0.3);
+}
+
+.ff7-border {
+  @apply relative overflow-hidden rounded-lg;
+  border: 2px solid #4169E1;
+}
+
+.ff7-text {
+  @apply font-bold;
+  text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.3), 0 0 10px rgba(255, 255, 255, 0.3);
+}
+
+.ff7-blue {
+  color: #4169E1;
+}
+
+.ff7-teal {
+  color: #20B2AA;
+}
+
+.ff7-purple {
+  color: #9370DB;
+}
+
+.ff7-gold {
+  color: #DAA520;
+}
+
+/* FF7 Color Variables */
+:root {
+  /* FF7 inspired colors */
+  --ff7-blue: 210 100% 60%;
+  --ff7-teal: 180 70% 45%;
+  --ff7-purple: 270 60% 55%;
+  --ff7-gold: 45 90% 50%;
+  --ff7-sky: 195 100% 75%;
+}
+
+/* FF7 Animations */
+@keyframes ffPulse {
+  0% {
+    box-shadow: 0 0 5px rgba(65, 105, 225, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 15px rgba(65, 105, 225, 0.8);
+  }
+  100% {
+    box-shadow: 0 0 5px rgba(65, 105, 225, 0.5);
+  }
+}
+
+.ff7-pulse {
+  animation: ffPulse 2s infinite;
+}
+
+.cyberpunk-border {
+  @apply border-2 border-blue-400 rounded-lg;
+  box-shadow: 0 0 10px rgba(66, 153, 225, 0.6);
+}
