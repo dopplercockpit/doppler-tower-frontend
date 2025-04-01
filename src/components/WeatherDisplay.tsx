@@ -1,6 +1,5 @@
 
 import { WeatherData, getWeatherIconUrl } from "../services/weatherService";
-import { generateWeatherSummary } from "../utils/weatherUtils";
 import { Cloud, Droplets, Thermometer, Wind, Sunrise, Sunset, CloudFog } from "lucide-react";
 
 interface WeatherDisplayProps {
@@ -28,9 +27,8 @@ const WeatherDisplay = ({ weatherData }: WeatherDisplayProps) => {
     minTemp,
     maxTemp,
     timezone,
+    summary
   } = weatherData;
-
-  const summary = generateWeatherSummary(weatherData);
   
   // Format sunrise and sunset times
   const formatTime = (timestamp: number) => {
@@ -56,8 +54,8 @@ const WeatherDisplay = ({ weatherData }: WeatherDisplayProps) => {
     
     return (
       <div className="flex items-center">
-        <CloudFog className="mr-2" />
-        <span className="text-lg">Air Quality: <span className="ml-1 flex items-center">
+        <CloudFog className="mr-2 text-white" />
+        <span className="text-lg text-white">Air Quality: <span className="ml-1 flex items-center">
           <div className={className}></div>
           <span className="ml-1">{label}</span>
         </span></span>
@@ -66,20 +64,20 @@ const WeatherDisplay = ({ weatherData }: WeatherDisplayProps) => {
   };
 
   return (
-    <div className={`weather-card ${condition}-bg p-6 mb-6`}>
+    <div className={`weather-card ${condition}-bg p-6 mb-4`}>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="flex flex-col items-center md:items-start">
-          <h2 className="text-3xl font-bold mb-1 neon-text neon-teal">{location}</h2>
+          <h2 className="text-3xl font-bold mb-1 ff7-text ff7-blue">{location}</h2>
           <div className="flex items-center mb-4">
             <img
               src={getWeatherIconUrl(icon)}
               alt={description}
               className="weather-icon mr-2"
             />
-            <span className="text-5xl font-bold neon-text">{Math.round(temperature)}°C</span>
+            <span className="text-5xl font-bold ff7-text">{Math.round(temperature)}°C</span>
             <span className="text-2xl ml-2">/ {Math.round(temperature * 9/5 + 32)}°F</span>
           </div>
-          <p className="text-xl capitalize mb-2 neon-text neon-blue">{description}</p>
+          <p className="text-xl capitalize mb-2 ff7-text ff7-teal">{description}</p>
           <p className="text-lg">Feels like: {Math.round(feels_like)}°C / {Math.round(feels_like * 9/5 + 32)}°F</p>
           
           <div className="flex items-center mt-4 gap-4">
@@ -94,30 +92,33 @@ const WeatherDisplay = ({ weatherData }: WeatherDisplayProps) => {
           </div>
         </div>
 
-        <div className="flex flex-col justify-center space-y-4 backdrop-blur-sm bg-black bg-opacity-30 p-4 rounded-lg">
+        <div className="flex flex-col justify-center space-y-4 backdrop-blur-sm bg-black bg-opacity-50 p-4 rounded-lg">
           <div className="flex items-center">
             <Thermometer className="mr-2 text-red-400" />
-            <span className="text-lg">Pressure: {pressure} hPa</span>
+            <span className="text-lg text-white">Pressure: {pressure} hPa</span>
           </div>
           <div className="flex items-center">
             <Droplets className="mr-2 text-blue-400" />
-            <span className="text-lg">Humidity: {humidity}%</span>
+            <span className="text-lg text-white">Humidity: {humidity}%</span>
           </div>
           <div className="flex items-center">
             <Wind className="mr-2 text-cyan-400" />
-            <span className="text-lg">Wind: {windSpeed} m/s / {Math.round(windSpeed * 2.237)} mph</span>
+            <span className="text-lg text-white">Wind: {windSpeed} m/s / {Math.round(windSpeed * 2.237)} mph</span>
           </div>
           <div className="flex items-center">
             <Thermometer className="mr-2 text-blue-400" />
-            <span className="text-lg">Min / Max: {minTemp}°C / {maxTemp}°C</span>
+            <span className="text-lg text-white">Min / Max: {minTemp}°C / {maxTemp}°C</span>
           </div>
           {getAirQualityElement()}
         </div>
       </div>
-
-      <div className="mt-6 p-4 bg-black bg-opacity-50 rounded-lg backdrop-blur-sm text-white">
-        <p className="text-lg">{summary}</p>
-      </div>
+      
+      {summary && (
+        <div className="mt-4 p-4 bg-black bg-opacity-50 rounded-lg backdrop-blur-sm text-white">
+          <h3 className="text-xl font-bold mb-2 ff7-text ff7-gold">AI Weather Summary</h3>
+          <p className="text-lg">{summary}</p>
+        </div>
+      )}
     </div>
   );
 };

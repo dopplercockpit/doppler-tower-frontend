@@ -4,6 +4,7 @@ import WeatherSearch from "@/components/WeatherSearch";
 import WeatherDisplay from "@/components/WeatherDisplay";
 import WeatherForecast from "@/components/WeatherForecast";
 import WeatherNotification from "@/components/WeatherNotification";
+import WeatherMap from "@/components/WeatherMap";
 import { 
   getCurrentWeather, 
   getForecast, 
@@ -37,12 +38,31 @@ const Index = () => {
     setError(null);
     
     try {
+      // Process natural language query to extract location
+      let searchLocation = location;
+      
+      // Simple NLP processing to extract city name from query
+      if (location.toLowerCase().includes("weather in")) {
+        searchLocation = location.toLowerCase().split("weather in")[1].trim();
+      } else if (location.toLowerCase().includes("what's the weather in")) {
+        searchLocation = location.toLowerCase().split("what's the weather in")[1].trim();
+      } else if (location.toLowerCase().includes("how is the weather in")) {
+        searchLocation = location.toLowerCase().split("how is the weather in")[1].trim();
+      }
+      
+      // Clean up extracted location (remove punctuation)
+      searchLocation = searchLocation.replace(/[?!.,]/g, '').trim();
+      
+      if (!searchLocation) {
+        searchLocation = "London"; // Default location if extraction fails
+      }
+      
       // Fetch current weather
-      const weatherResult = await getCurrentWeather(location);
+      const weatherResult = await getCurrentWeather(searchLocation);
       setWeatherData(weatherResult);
       
       // Fetch forecast
-      const forecastResult = await getForecast(location);
+      const forecastResult = await getForecast(searchLocation);
       setForecastData(forecastResult);
       
       // Generate weather notifications
@@ -72,7 +92,7 @@ const Index = () => {
     if (!hasSevereAlert) return null;
     
     return (
-      <div className="severe-alert mb-6 neon-pulse">
+      <div className="severe-alert mb-6 ff7-pulse">
         <div className="flex items-center">
           <AlertTriangle className="mr-2 h-6 w-6 text-red-200" />
           <h3 className="text-xl font-bold">Severe Weather Alert</h3>
@@ -90,18 +110,18 @@ const Index = () => {
         <div className="text-center mb-8">
           <div className="flex items-center justify-center mb-2">
             <img 
-              src="/lovable-uploads/9f5cebf3-e4c1-4f0d-9b8c-a53fee564106.png" 
+              src="/lovable-uploads/a34e90ef-b0ed-4feb-9308-09a4ff5a84c9.png" 
               alt="Doppler Tower Logo" 
-              className="h-12 mr-3"
+              className="h-16 mr-3"
             />
-            <h1 className="text-5xl font-bold neon-text neon-purple">Doppler Tower</h1>
+            <h1 className="text-5xl font-bold ff7-text ff7-blue">Doppler Tower</h1>
           </div>
-          <p className="text-xl text-gray-200 mb-4">
+          <p className="text-xl text-gray-800 mb-4 font-bold">
             Advanced Weather Monitoring & Alert System
           </p>
-          <div className="flex items-center justify-center text-white mb-6">
-            <Clock className="mr-2" />
-            <span>{currentTime}</span>
+          <div className="flex items-center justify-center text-gray-800 mb-6">
+            <Clock className="mr-2 text-gray-800" />
+            <span className="font-medium">{currentTime}</span>
           </div>
           <div className="flex justify-center mb-8">
             <WeatherSearch onSearch={handleSearch} isLoading={isLoading} />
@@ -122,9 +142,20 @@ const Index = () => {
             <WeatherNotification notifications={notifications} />
             <WeatherForecast forecastData={forecastData} />
             
+            {/* Ad Space */}
+            <div className="mb-8 p-4 border-2 border-dashed border-gray-400 rounded-lg bg-white bg-opacity-20 backdrop-blur-sm text-center">
+              <p className="text-gray-600">Advertisement Space</p>
+            </div>
+            
+            {/* Weather Map */}
+            <div className="mb-8">
+              <h2 className="text-2xl font-bold mb-4 ff7-text ff7-blue">Weather Map</h2>
+              <WeatherMap location={weatherData.location} />
+            </div>
+            
             {weatherData.hourlyForecast && weatherData.hourlyForecast.length > 0 && (
-              <div className="mb-6">
-                <h2 className="text-2xl font-bold mb-4 text-white neon-text neon-teal">The Next Few Hours</h2>
+              <div className="mb-8">
+                <h2 className="text-2xl font-bold mb-4 ff7-text ff7-teal">The Next Few Hours</h2>
                 <div className="bg-black bg-opacity-50 rounded-lg p-4 backdrop-blur-sm cyberpunk-border">
                   <div className="space-y-2 text-white">
                     {weatherData.hourlyForecast.map((hourly, index) => (
@@ -142,15 +173,6 @@ const Index = () => {
                       </div>
                     ))}
                   </div>
-                </div>
-              </div>
-            )}
-            
-            {weatherData.summary && (
-              <div className="mb-6">
-                <h2 className="text-2xl font-bold mb-4 text-white neon-text neon-pink">AI Weather Summary</h2>
-                <div className="bg-black bg-opacity-50 rounded-lg p-4 backdrop-blur-sm cyberpunk-border">
-                  <p className="text-white">{weatherData.summary}</p>
                 </div>
               </div>
             )}

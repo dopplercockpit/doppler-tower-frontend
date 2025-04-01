@@ -13,7 +13,7 @@ const WeatherNotification = ({ notifications }: WeatherNotificationProps) => {
 
   return (
     <div className="mb-6">
-      <h2 className="text-2xl font-bold mb-4 text-indigo-700">Weather Alerts</h2>
+      <h2 className="text-2xl font-bold mb-4 ff7-text ff7-purple">Weather Alerts</h2>
       <div className="space-y-3">
         {notifications.map((notification, index) => (
           <div
