@@ -36,22 +36,22 @@
     --radius: 0.5rem;
 
     --sidebar-background: 0 0% 98%;
-
     --sidebar-foreground: 240 5.3% 26.1%;
-
     --sidebar-primary: 240 5.9% 10%;
-
     --sidebar-primary-foreground: 0 0% 98%;
-
     --sidebar-accent: 240 4.8% 95.9%;
-
     --sidebar-accent-foreground: 240 5.9% 10%;
-
     --sidebar-border: 220 13% 91%;
-
     --sidebar-ring: 217.2 91.2% 59.8%;
     
-    /* Weather condition colors */
+    /* Cyberpunk colors */
+    --neon-pink: 330 100% 50%;
+    --neon-blue: 210 100% 60%;
+    --neon-purple: 280 100% 65%;
+    --neon-teal: 160 100% 45%;
+    --neon-yellow: 50 100% 50%;
+    
+    /* Weather condition gradients - cyberpunk style */
     --sunny-gradient: linear-gradient(to right, #f7b733, #fc4a1a);
     --cloudy-gradient: linear-gradient(to right, #8e9eab, #eef2f3);
     --rainy-gradient: linear-gradient(to right, #5c258d, #4389a2);
@@ -60,41 +60,7 @@
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    /* ... keep existing code (dark mode variables) */
   }
 }
 
@@ -105,36 +71,94 @@
 
   body {
     @apply bg-background text-foreground;
+    background-image: 
+      linear-gradient(to bottom, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
+      url('/lovable-uploads/4171e03e-921d-4f70-89b5-56b7d0bc28e7.png');
+    background-size: cover;
+    background-attachment: fixed;
+    background-position: center;
   }
 }
 
+/* Cyberpunk UI Elements */
+.cyberpunk-card {
+  @apply rounded-lg shadow-lg border-2 backdrop-blur-sm transition-all duration-300;
+  border-image: linear-gradient(to bottom right, rgba(255, 0, 128, 0.7), rgba(0, 255, 255, 0.7)) 1;
+  box-shadow: 0 0 15px rgba(0, 255, 255, 0.3), 0 0 30px rgba(255, 0, 128, 0.2);
+}
+
+.cyberpunk-border {
+  @apply relative overflow-hidden;
+}
+
+.cyberpunk-border::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border: 2px solid transparent;
+  border-radius: inherit;
+  background: linear-gradient(to right, #FF00FF, #00FFFF) border-box;
+  -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+.neon-text {
+  @apply font-bold;
+  text-shadow: 0 0 5px rgba(255, 255, 255, 0.7), 0 0 10px currentColor;
+}
+
+.neon-pink {
+  color: hsl(var(--neon-pink));
+}
+
+.neon-blue {
+  color: hsl(var(--neon-blue));
+}
+
+.neon-purple {
+  color: hsl(var(--neon-purple));
+}
+
+.neon-teal {
+  color: hsl(var(--neon-teal));
+}
+
+.neon-yellow {
+  color: hsl(var(--neon-yellow));
+}
+
 .weather-card {
-  @apply overflow-hidden rounded-lg shadow-lg transition-all duration-300;
+  @apply overflow-hidden rounded-lg shadow-lg transition-all duration-300 cyberpunk-card;
 }
 
 .sunny-bg {
   background: var(--sunny-gradient);
-  @apply text-white;
+  @apply text-white bg-opacity-70 backdrop-blur-sm;
 }
 
 .cloudy-bg {
   background: var(--cloudy-gradient);
-  @apply text-gray-800;
+  @apply text-gray-800 bg-opacity-70 backdrop-blur-sm;
 }
 
 .rainy-bg {
   background: var(--rainy-gradient);
-  @apply text-white;
+  @apply text-white bg-opacity-70 backdrop-blur-sm;
 }
 
 .snowy-bg {
   background: var(--snowy-gradient);
-  @apply text-gray-800;
+  @apply text-gray-800 bg-opacity-70 backdrop-blur-sm;
 }
 
 .stormy-bg {
   background: var(--stormy-gradient);
-  @apply text-white;
+  @apply text-white bg-opacity-70 backdrop-blur-sm;
 }
 
 .weather-icon {
@@ -142,11 +166,26 @@
 }
 
 .forecast-card {
-  @apply p-4 rounded-lg shadow-md transition-all duration-300 hover:shadow-lg;
+  @apply p-4 rounded-lg shadow-md transition-all duration-300 hover:shadow-lg cyberpunk-border bg-black bg-opacity-40 backdrop-blur-sm;
 }
 
 .notification-card {
-  @apply p-4 rounded-lg shadow transition-all bg-opacity-90 mb-4;
+  @apply p-4 rounded-lg shadow transition-all mb-4 cyberpunk-border;
+}
+
+.notification-card.warning-bg {
+  background: linear-gradient(to right, rgba(255, 165, 0, 0.7), rgba(255, 69, 0, 0.7));
+  @apply backdrop-blur-sm text-white;
+}
+
+.notification-card.info-bg {
+  background: linear-gradient(to right, rgba(0, 191, 255, 0.7), rgba(30, 144, 255, 0.7));
+  @apply backdrop-blur-sm text-white;
+}
+
+.notification-card.alert-bg {
+  background: linear-gradient(to right, rgba(220, 20, 60, 0.7), rgba(139, 0, 0, 0.7));
+  @apply backdrop-blur-sm text-white;
 }
 
 @keyframes fadeIn {
@@ -156,4 +195,36 @@
 
 .fade-in {
   animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes neonPulse {
+  0% {
+    box-shadow: 0 0 5px rgba(255, 0, 128, 0.5), 0 0 10px rgba(0, 255, 255, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 10px rgba(255, 0, 128, 0.7), 0 0 15px rgba(0, 255, 255, 0.5);
+  }
+  100% {
+    box-shadow: 0 0 5px rgba(255, 0, 128, 0.5), 0 0 10px rgba(0, 255, 255, 0.3);
+  }
+}
+
+.neon-pulse {
+  animation: neonPulse 2s infinite;
+}
+
+.severe-alert {
+  @apply bg-red-600 bg-opacity-70 text-white rounded-md p-4 mb-4 backdrop-blur-sm border-l-4 border-red-800;
+}
+
+.air-quality-good {
+  @apply bg-green-500 rounded-full w-4 h-4 inline-block;
+}
+
+.air-quality-moderate {
+  @apply bg-yellow-500 rounded-full w-4 h-4 inline-block;
+}
+
+.air-quality-poor {
+  @apply bg-red-500 rounded-full w-4 h-4 inline-block;
 }

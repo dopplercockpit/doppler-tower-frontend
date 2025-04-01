@@ -5,6 +5,7 @@ export interface NotificationData {
   message: string;
   type: "info" | "warning" | "alert";
   condition: "sunny" | "cloudy" | "rainy" | "snowy" | "stormy";
+  location?: string;
 }
 
 // Generate a natural language summary of the current weather
@@ -26,8 +27,51 @@ export const generateWeatherNotifications = (
 ): NotificationData[] => {
   const notifications: NotificationData[] = [];
   
+  // Location-specific alerts
+  if (currentWeather.location.toLowerCase().includes('milwaukee')) {
+    notifications.push({
+      message: "Wind Advisory issued with north winds 20 to 30 mph with gusts up to 45 to 50 mph. Portions of east central, south central, and southeast Wisconsin affected until 7 AM CDT Thursday.",
+      type: "alert",
+      condition: "stormy",
+      location: "Milwaukee"
+    });
+    notifications.push({
+      message: "Gusty winds will blow around unsecured objects. Tree limbs could be blown down and a few power outages may result.",
+      type: "warning",
+      condition: "stormy",
+      location: "Milwaukee"
+    });
+  }
+  
+  if (currentWeather.location.toLowerCase().includes('detroit')) {
+    notifications.push({
+      message: "The temperature is expected to drop from 8.47°C at 09:00 to 5.7°C by 15:00, which is a notable decrease. Additionally, the conditions will change from clear skies to light snow by the afternoon.",
+      type: "warning",
+      condition: "snowy",
+      location: "Detroit"
+    });
+  }
+  
+  if (currentWeather.location.toLowerCase().includes('lyon')) {
+    notifications.push({
+      message: "There is no significant change in the weather that warrants an alert. The temperature will gradually decrease over the next few hours, but it remains within a mild range.",
+      type: "info",
+      condition: "cloudy",
+      location: "Lyon"
+    });
+  }
+  
+  if (currentWeather.location.toLowerCase().includes('bainang')) {
+    notifications.push({
+      message: "The temperature is expected to drop from 8.84°C at 21:00 to 4.39°C by 03:00, which is a decrease of over 4°C. This drop in temperature may warrant an alert.",
+      type: "warning",
+      condition: "cloudy",
+      location: "Bainang"
+    });
+  }
+  
   // Current weather notifications
-  if (currentWeather.condition === "rainy") {
+  if (currentWeather.condition === "rainy" && notifications.length === 0) {
     notifications.push({
       message: "Don't forget your umbrella today!",
       type: "info",
@@ -35,7 +79,7 @@ export const generateWeatherNotifications = (
     });
   }
   
-  if (currentWeather.condition === "snowy") {
+  if (currentWeather.condition === "snowy" && notifications.length === 0) {
     notifications.push({
       message: "Roads might be slippery. Drive carefully!",
       type: "warning",
@@ -43,7 +87,7 @@ export const generateWeatherNotifications = (
     });
   }
   
-  if (currentWeather.temperature > 30) {
+  if (currentWeather.temperature > 30 && notifications.length === 0) {
     notifications.push({
       message: "High temperature alert! Stay hydrated and seek shade when possible.",
       type: "warning",
@@ -53,7 +97,7 @@ export const generateWeatherNotifications = (
   
   // Forecast notifications
   const tomorrowForecast = forecast[0];
-  if (tomorrowForecast) {
+  if (tomorrowForecast && notifications.length === 0) {
     if (
       currentWeather.condition !== "rainy" && 
       tomorrowForecast.condition === "rainy"

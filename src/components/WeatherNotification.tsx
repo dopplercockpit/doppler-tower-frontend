@@ -1,5 +1,5 @@
 
-import { AlertTriangle, Info } from "lucide-react";
+import { AlertTriangle, Info, Bell, AlertCircle } from "lucide-react";
 import { NotificationData } from "../utils/weatherUtils";
 
 interface WeatherNotificationProps {
@@ -13,20 +13,29 @@ const WeatherNotification = ({ notifications }: WeatherNotificationProps) => {
 
   return (
     <div className="mb-6">
-      <h2 className="text-2xl font-bold mb-4">Weather Alerts</h2>
+      <h2 className="text-2xl font-bold mb-4 neon-text neon-yellow">Weather Alerts</h2>
       <div className="space-y-3">
         {notifications.map((notification, index) => (
           <div
             key={index}
-            className={`notification-card ${notification.condition}-bg fade-in`}
+            className={`notification-card ${notification.type}-bg fade-in`}
           >
             <div className="flex items-start">
-              {notification.type === "warning" || notification.type === "alert" ? (
-                <AlertTriangle className="mr-2 h-5 w-5 flex-shrink-0" />
+              {notification.type === "warning" ? (
+                <AlertTriangle className="mr-2 h-5 w-5 flex-shrink-0 text-yellow-200" />
+              ) : notification.type === "alert" ? (
+                <AlertCircle className="mr-2 h-5 w-5 flex-shrink-0 text-red-200" />
               ) : (
-                <Info className="mr-2 h-5 w-5 flex-shrink-0" />
+                <Info className="mr-2 h-5 w-5 flex-shrink-0 text-blue-200" />
               )}
               <div>
+                <div className="flex items-center mb-1">
+                  {notification.location && (
+                    <span className="text-sm font-bold mr-2">
+                      {notification.location && `Weather Change Alert for ${notification.location}:`}
+                    </span>
+                  )}
+                </div>
                 <p className="text-lg">{notification.message}</p>
               </div>
             </div>
