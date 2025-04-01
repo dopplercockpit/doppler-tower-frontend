@@ -1,3 +1,4 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -49,6 +50,13 @@
     --sidebar-border: 220 13% 91%;
 
     --sidebar-ring: 217.2 91.2% 59.8%;
+    
+    /* Weather condition colors */
+    --sunny-gradient: linear-gradient(to right, #f7b733, #fc4a1a);
+    --cloudy-gradient: linear-gradient(to right, #8e9eab, #eef2f3);
+    --rainy-gradient: linear-gradient(to right, #5c258d, #4389a2);
+    --snowy-gradient: linear-gradient(to right, #8e9eab, #ffffff);
+    --stormy-gradient: linear-gradient(to right, #373b44, #4286f4);
   }
 
   .dark {
@@ -98,4 +106,54 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+.weather-card {
+  @apply overflow-hidden rounded-lg shadow-lg transition-all duration-300;
+}
+
+.sunny-bg {
+  background: var(--sunny-gradient);
+  @apply text-white;
+}
+
+.cloudy-bg {
+  background: var(--cloudy-gradient);
+  @apply text-gray-800;
+}
+
+.rainy-bg {
+  background: var(--rainy-gradient);
+  @apply text-white;
+}
+
+.snowy-bg {
+  background: var(--snowy-gradient);
+  @apply text-gray-800;
+}
+
+.stormy-bg {
+  background: var(--stormy-gradient);
+  @apply text-white;
+}
+
+.weather-icon {
+  @apply w-20 h-20 mx-auto;
+}
+
+.forecast-card {
+  @apply p-4 rounded-lg shadow-md transition-all duration-300 hover:shadow-lg;
+}
+
+.notification-card {
+  @apply p-4 rounded-lg shadow transition-all bg-opacity-90 mb-4;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.fade-in {
+  animation: fadeIn 0.5s ease-in;
 }
