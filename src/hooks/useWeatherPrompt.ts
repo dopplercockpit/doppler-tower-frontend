@@ -1,44 +1,56 @@
-import { useState } from "react";
+import { useEffect } from "react";
 
-export function useWeatherPrompt() {
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [summary, setSummary] = useState<string | null>(null);
-  const [rawData, setRawData] = useState<any>(null);
+// Utility function to detect if prompt is a weather agent request
+function isAgentPrompt(prompt: string) {
+  return prompt.toLowerCase().includes("set a weather agent");
+}
 
-  const sendPrompt = async (prompt: string) => {
-    setLoading(true);
-    setError(null);
-    setSummary(null);
+// Utility to extract city and times from prompt
+function extractAgentDetails(prompt: string) {
+  const cityMatch = prompt.match(/for (\w+)/i);
+  const timeMatches = prompt.match(/\d{1,2}:\d{2}/g);
 
-    try {
-      const response = await fetch("/prompt", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ prompt }),
-      });
+  const city = cityMatch ? cityMatch[1] : null;
+  const hours = timeMatches || [];
 
-      if (!response.ok) {
-        throw new Error(`Backend error: ${response.status}`);
+  return { city, hours };
+}
+
+export function useWeatherPrompt(onFallbackSearch: (location: string) => void) {
+  useEffect(() => {
+    const inputBox = document.querySelector("input[type='text']") as HTMLInputElement;
+    const searchButton = inputBox?.nextElementSibling as HTMLElement;
+
+    if (!inputBox || !searchButton) return;
+
+    const handleSubmit = () => {
+      const prompt = inputBox.value;
+      if (!isAgentPrompt(prompt)) return;
+
+      const { city, hours } = extractAgentDetails(prompt);
+
+      if (!city || hours.length === 0) {
+        console.warn("Could not parse a weather agent from the input.");
+        onFallbackSearch(prompt); // ← This is where the fallback happens
+        return;
       }
 
-      const data = await response.json();
-      setSummary(data.summary || data.gpt_summary || "No summary available.");
-      setRawData(data);
-    } catch (err: any) {
-      setError(err.message || "Unknown error");
-    } finally {
-      setLoading(false);
-    }
-  };
+      // Send to backend
+      fetch("/agents", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ city, hours })
+      })
+        .then((res) => {
+          if (!res.ok) throw new Error("Failed to set agent.");
+          console.log("Agent set for", city, "at", hours.join(", "));
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    };
 
-  return {
-    sendPrompt,
-    loading,
-    error,
-    summary,
-    rawData,
-  };
+    searchButton.addEventListener("click", handleSubmit);
+    return () => searchButton.removeEventListener("click", handleSubmit);
+  }, [onFallbackSearch]);
 }
