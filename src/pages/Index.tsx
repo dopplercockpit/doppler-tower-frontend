@@ -123,6 +123,15 @@ const Index = () => {
           <p className="text-xl text-gray-800 mb-4 font-bold">
             Advanced Weather Monitoring & Alert System
           </p>
+          <form id="weatherPromptForm" className="flex justify-center mb-4">
+            <input
+              id="weatherPromptInput"
+              type="text"
+              placeholder="Ask the donkey anything..."
+              className="border rounded px-4 py-2 text-black w-full max-w-lg"
+            />
+            <button type="submit" className="ml-2 px-4 py-2 bg-blue-600 text-white rounded">Go</button>
+          </form>
           <div className="flex items-center justify-center text-gray-800 mb-6">
             <Clock className="mr-2 text-gray-800" />
             <span className="font-medium">{currentTime}</span>
