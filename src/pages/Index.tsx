@@ -5,6 +5,7 @@ import WeatherDisplay from "@/components/WeatherDisplay";
 import WeatherForecast from "@/components/WeatherForecast";
 import WeatherNotification from "@/components/WeatherNotification";
 import WeatherMap from "@/components/WeatherMap";
+import { useWeatherPrompt } from "@/hooks/useWeatherPrompt";
 import { 
   getCurrentWeather, 
   getForecast, 
@@ -23,6 +24,8 @@ const Index = () => {
   const [error, setError] = useState<string | null>(null);
   const [currentTime, setCurrentTime] = useState<string>(new Date().toLocaleTimeString());
   const { toast } = useToast();
+
+  useWeatherPrompt();
 
   // Update the current time every minute
   useEffect(() => {
