@@ -1,3 +1,4 @@
+
 // src/hooks/useWeatherPrompt.ts
 import { useEffect } from "react";
 
@@ -5,13 +6,18 @@ export function useWeatherPrompt(handleSearch: (query: string) => void) {
   useEffect(() => {
     const interval = setInterval(async () => {
       try {
+        const inputElement = document.getElementById("weatherPromptInput");
+        // Properly type check the input element
+        const promptValue = inputElement && inputElement instanceof HTMLInputElement ? 
+          inputElement.value : "";
+          
         const response = await fetch("http://localhost:5000/prompt", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            prompt: document.getElementById("weatherPromptInput")?.value || ""
+            prompt: promptValue
           }),
         });
     
@@ -31,4 +37,3 @@ export function useWeatherPrompt(handleSearch: (query: string) => void) {
     return () => clearInterval(interval);
   }, [handleSearch]);
 }
-
